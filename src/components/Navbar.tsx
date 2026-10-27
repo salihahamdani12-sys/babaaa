@@ -354,6 +354,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
 
+          {/* Situation du Passage & 4W (WWWW) Rule Button */}
+          {onOpenPassageSituation && (
+            <button
+              id="nav-tab-four-w"
+              onClick={onOpenPassageSituation}
+              className="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-arabic font-bold bg-amber-200/90 hover:bg-amber-300 dark:bg-amber-900/60 dark:hover:bg-amber-800 text-amber-950 dark:text-amber-200 border border-amber-300/80 dark:border-amber-700 flex items-center gap-1.5 transition-all shadow-xs cursor-pointer hover:scale-102"
+              title="قاعدة 4W (WWWW) لتأطير النص في الامتحان الجهوي: Who, What, Where, When"
+            >
+              <Compass className="w-3.5 h-3.5 text-amber-800 dark:text-amber-300" />
+              <span className="hidden xl:inline">تأطير النص (قاعدة 4W) 🎯</span>
+              <span className="xl:hidden">قاعدة 4W 🎯</span>
+            </button>
+          )}
+
           <button
             id="nav-tab-quiz"
             onClick={onOpenQuiz}

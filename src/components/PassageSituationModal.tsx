@@ -14,6 +14,7 @@ import {
   PassageQuizQuestion
 } from '../data/passagesService';
 import { CHAPTER_EVENTS_DATA, ChapterEventItem } from '../data/chapterEventsData';
+import { FourWMethodologyStudio } from './FourWMethodologyStudio';
 
 interface PassageSituationModalProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ interface PassageSituationModalProps {
   activeBook: BookInfo;
   initialPassageId?: string;
   initialChapterNumber?: number;
-  initialTab?: 'test' | 'explore';
+  initialTab?: 'test' | 'explore' | 'fourW';
   onJumpToPage?: (pageNumber: number) => void;
 }
 
@@ -35,7 +36,7 @@ export const PassageSituationModal: React.FC<PassageSituationModalProps> = ({
   onJumpToPage,
 }) => {
   const [selectedBookId, setSelectedBookId] = useState<BookId>(activeBook.id);
-  const [activeTab, setActiveTab] = useState<'test' | 'explore'>(initialTab);
+  const [activeTab, setActiveTab] = useState<'test' | 'explore' | 'fourW'>(initialTab);
   const [currentPassageIndex, setCurrentPassageIndex] = useState<number>(0);
   const [selectedChapterFilter, setSelectedChapterFilter] = useState<number | 'ALL'>(
     initialChapterNumber || 'ALL'
@@ -198,29 +199,41 @@ export const PassageSituationModal: React.FC<PassageSituationModalProps> = ({
         {/* CONTROLS & TABS STRIP */}
         <div className="flex flex-wrap items-center justify-between border-b border-stone-200 dark:border-stone-800 bg-amber-50/70 dark:bg-stone-850 px-4 py-2.5 gap-2 text-xs font-bold shrink-0">
           {/* Main Tabs */}
-          <div className="flex items-center gap-1.5 p-1 bg-amber-200/50 dark:bg-stone-800 rounded-xl">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-amber-200/50 dark:bg-stone-800 rounded-xl">
             <button
               onClick={() => setActiveTab('explore')}
-              className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
                 activeTab === 'explore'
                   ? 'bg-emerald-800 text-white shadow-xs'
                   : 'text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
               }`}
             >
               <ListOrdered className="w-3.5 h-3.5 text-emerald-300" />
-              <span>دليل النقاطع والأحداث (Les Points Importants) 📜</span>
+              <span>دليل النقاط والأحداث 📜</span>
             </button>
 
             <button
               onClick={() => setActiveTab('test')}
-              className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
                 activeTab === 'test'
                   ? 'bg-amber-900 text-white shadow-xs'
                   : 'text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
               }`}
             >
               <Award className="w-3.5 h-3.5 text-amber-300" />
-              <span>اختبار وتأطير المقطع (Mode Test) 🎯</span>
+              <span>اختبار المقطع 🎯</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('fourW')}
+              className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
+                activeTab === 'fourW'
+                  ? 'bg-amber-500 text-amber-950 font-black shadow-xs ring-2 ring-amber-300 dark:ring-amber-500'
+                  : 'text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5 text-amber-800 dark:text-amber-300" />
+              <span>قاعدة 4W (WWWW) لتأطير النص 🎯</span>
             </button>
           </div>
 
@@ -705,6 +718,18 @@ export const PassageSituationModal: React.FC<PassageSituationModalProps> = ({
                 </div>
               )}
             </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* TAB 3: THE 4W (WWWW) SITUATION DU PASSAGE METHODOLOGY STUDIO              */}
+          {/* ========================================================================= */}
+          {activeTab === 'fourW' && (
+            <FourWMethodologyStudio
+              selectedBookId={selectedBookId}
+              onSelectBookId={(id) => setSelectedBookId(id)}
+              onJumpToPage={onJumpToPage}
+              onClose={onClose}
+            />
           )}
         </div>
       </div>

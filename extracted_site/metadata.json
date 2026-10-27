@@ -1,0 +1,6 @@
+{
+  "name": "La Boîte à Merveilles - قراءة وترجمة تفاعلية لأولى باك",
+  "description": "منصة تعليمية تفاعلية شاملة لطلاب الأولى باكالوريا بالمغرب لمؤلفات الامتحان الجهوي: علبة العجائب (La Boîte à Merveilles)، مسرحية أنتيجون (Antigone)، ورواية آخر يوم لمحكوم عليه بالإعدام (Le Dernier Jour d'un Condamné) لفيكتور هوغو، مع قراءة كاملة، ملخصات عربية دقيقة، ترجمة سياقية ذاتية التحقق، واختبارات جهوية نموذجية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-arabic: "Cairo", "Amiri", system-ui, sans-serif;
+  --font-amiri: "Amiri", serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
+}
+
+/* Custom smooth styling */
+.font-arabic {
+  font-family: 'Cairo', 'Amiri', system-ui, sans-serif;
+}
+
+.font-amiri {
+  font-family: 'Amiri', serif;
+}
+
+.font-book {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Custom parchment/paper texture background */
+.bg-book-paper {
+  background-color: #fcfbf9;
+  background-image: radial-gradient(#e5ded4 0.75px, transparent 0.75px), radial-gradient(#f1ede6 0.75px, #fcfbf9 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.dark .bg-book-paper {
+  background-color: #0f1117;
+  background-image: radial-gradient(#222736 0.75px, transparent 0.75px), radial-gradient(#181b24 0.75px, #0f1117 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Dynamic Speech Synthesis Waveform Animation */
+@keyframes waveform {
+  0%, 100% {
+    height: 4px;
+    opacity: 0.5;
+  }
+  50% {
+    height: 16px;
+    opacity: 1;
+  }
+}
+
+.animate-waveform-1 {
+  animation: waveform 0.8s ease-in-out infinite;
+}
+.animate-waveform-2 {
+  animation: waveform 0.8s ease-in-out 0.15s infinite;
+}
+.animate-waveform-3 {
+  animation: waveform 0.8s ease-in-out 0.3s infinite;
+}
+.animate-waveform-4 {
+  animation: waveform 0.8s ease-in-out 0.45s infinite;
+}
+.animate-waveform-5 {
+  animation: waveform 0.8s ease-in-out 0.2s infinite;
+}
+
