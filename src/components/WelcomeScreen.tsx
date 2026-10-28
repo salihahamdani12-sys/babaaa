@@ -15,7 +15,6 @@ interface WelcomeScreenProps {
   onOpenVocabReview?: (tab?: 'cards' | 'quiz') => void;
   onOpenFocusSession?: () => void;
   onOpenAnalytics?: () => void;
-  onOpenPassageSituation?: () => void;
   lastReadPages: Record<BookId, number>;
 }
 
@@ -28,7 +27,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   onOpenVocabReview,
   onOpenFocusSession,
   onOpenAnalytics,
-  onOpenPassageSituation,
   lastReadPages,
 }) => {
   const [selectedDirectoryBook, setSelectedDirectoryBook] = useState<BookId>(activeBookId);
@@ -143,38 +141,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
             </div>
           )}
         </div>
-
-        {/* 4W (WWWW) Methodology Quick Launcher Banner */}
-        {onOpenPassageSituation && (
-          <div
-            onClick={onOpenPassageSituation}
-            className="p-4 sm:p-5 rounded-2xl bg-linear-to-r from-amber-200/90 via-orange-100/90 to-amber-100/90 dark:from-amber-950/70 dark:via-stone-850 dark:to-stone-800 border-2 border-amber-300 dark:border-amber-700/80 shadow-xs hover:shadow-md transition-all cursor-pointer text-right flex flex-col sm:flex-row items-center justify-between gap-4 group max-w-3xl mx-auto"
-            dir="rtl"
-          >
-            <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-2xl bg-amber-800 text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                <Compass className="w-6 h-6 text-amber-300" />
-              </div>
-              <div className="space-y-1 text-right">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-bold text-sm sm:text-base text-stone-900 dark:text-white font-arabic">
-                    قاعدة 4W (WWWW) لتأطير النص في الامتحان الجهوي 🎯
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full bg-amber-500 text-amber-950 text-[10.5px] font-black font-mono shadow-2xs">
-                    Who · What · Where · When
-                  </span>
-                </div>
-                <p className="text-xs text-amber-900/90 dark:text-amber-200/80 font-arabic leading-relaxed">
-                  المنهجية المعتمدة لضمان العلامة الكاملة في السؤال الأول (Situer le passage): استعراض المقاطع، التحليل الرباعي، وتوليد الصياغة النموذجية بضغطة زر.
-                </p>
-              </div>
-            </div>
-
-            <span className="text-xs font-bold text-amber-950 dark:text-amber-200 font-arabic shrink-0 group-hover:-translate-x-1 transition-transform bg-white/90 dark:bg-stone-800 px-4 py-2 rounded-xl border border-amber-300 dark:border-stone-700 shadow-2xs">
-              افتح قاعدة 4W ←
-            </span>
-          </div>
-        )}
       </section>
 
       {/* Main List of Prescribed Works (القائمة الرئيسية للمؤلفات) */}

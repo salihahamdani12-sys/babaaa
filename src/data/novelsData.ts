@@ -533,34 +533,10 @@ export const NOVELS: Record<string, Novel> = {
       {
         name: 'Les Gardes (Jonas)',
         role: 'Les exécutants du pouvoir',
-        roleAr: 'الحراس (جوناس، دوراند وبودوس)',
+        roleAr: 'الحراس (جوناس ورفاقه)',
         description: 'Soldats médiocres, indifférents aux enjeux nobles, préoccupés par leur solde, leurs cartes et leur avancement.',
         descriptionAr: 'جنود بسطاء يمثلون أداة السلطة العمياء، لا يهمهم العدل أو الظلم، بل كل ما يشغل بالهم هو استلام الراتب ولعب الورق وتجنب العقوبات.',
         quote: "Nous, on obéit aux ordres, chef !"
-      },
-      {
-        name: 'Eurydice',
-        role: 'La Reine de Thèbes (épouse de Créon)',
-        roleAr: 'الملكة أوريديس (زوجة الملك كريون)',
-        description: 'Femme digne et silencieuse qui passe sa journée à tricoter pour les pauvres. En apprenant la mort d’Hémon, elle se tranche la gorge sans un mot.',
-        descriptionAr: 'زوجة كريون ووالدة هيمون، سيدة وقورة تقضي وقتها في حياكة الصوف للفقراء، وعند سماع نبأ انتحار وحيدها هيمون تقطع حنجرتها في غرفتها بصمت.',
-        quote: "Elle tricotera pendant toute la tragédie jusqu'à ce que son tour vienne de mourir."
-      },
-      {
-        name: 'Le Messager',
-        role: 'L’annonciateur du drame',
-        roleAr: 'الرسول (حامل الأخبار الفاجعة)',
-        description: 'Personnage solitaire qui fait irruption au palais pour annoncer le dénouement tragique dans le tombeau et la mort d’Antigone et d’Hémon.',
-        descriptionAr: 'شاب شاحب وحيد يقتحم القصر لينقل المشهد المأساوي الفظيع داخل المغارة: شنق أنتيجون لنفسها بحزامها وطعن هيمون لنفسه بسيفه.',
-        quote: "Une terrible nouvelle... Antigone est au fond de la tombe pendue aux fils de sa ceinture."
-      },
-      {
-        name: 'Le Page',
-        role: 'Le jeune serviteur de Créon',
-        roleAr: 'خادم الملك الصغير',
-        description: 'Jeune enfant innocent qui accompagne Créon dans sa solitude du pouvoir.',
-        descriptionAr: 'صبي صغير بريء يرافق الملك كريون في تنقلاته ويسانده في لحظات عزلته القاتمة بعد فناء عائلته.',
-        quote: "Tu es fou, petit. Il faudrait ne jamais devenir grand."
       }
     ],
     chapters: [

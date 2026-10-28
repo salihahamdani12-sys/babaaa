@@ -889,7 +889,7 @@ export class AccessibleTTSEngine {
 
     // Direct synchronous speech dispatch to preserve transient user activation on mobile & desktop browsers
     try {
-      console.log("[DEBUG] Attempting to speak utterance:", utterance); window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utterance);
       if (window.speechSynthesis.paused) {
         window.speechSynthesis.resume();
       }
@@ -1023,7 +1023,7 @@ export class NaturalTTSPlayer {
       }
     }
 
-    console.log("[DEBUG] Attempting to speak utterance:", utterance); window.speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(utterance);
   }
 }
 
@@ -1162,7 +1162,7 @@ export function diagnoseAndTestArabicSpeechEngine(
       console.log('[TTS Diagnostic] Test speech ended');
     };
 
-    console.log("[DEBUG] Attempting to speak utterance:", utterance); window.speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(utterance);
     if (window.speechSynthesis.paused) {
       window.speechSynthesis.resume();
     }

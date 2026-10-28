@@ -302,23 +302,6 @@ export const AudioSettingsModal: React.FC<AudioSettingsModalProps> = ({ isOpen, 
 
         {/* Content Body */}
         <div className="p-5 overflow-y-auto space-y-5 flex-1 text-right">
-          {/* Diagnostic Tool */}
-          <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 flex items-center justify-between">
-              <span className="text-xs font-bold text-amber-900 dark:text-amber-200">مشاكل في الصوت؟</span>
-              <button 
-                onClick={() => {
-                  import('../data/ttsService').then(m => m.diagnoseAndTestArabicSpeechEngine(
-                    'تجربة الصوت، هل تسمعني؟',
-                    () => alert('تم سماع الصوت بنجاح!'),
-                    (err) => alert('خطأ في الصوت: ' + err.message)
-                  ));
-                }}
-                className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all cursor-pointer"
-              >
-                تشغيل فحص الصوت
-              </button>
-          </div>
-
           {/* ========================================================================= */}
           {/* TAB 1: ELEVENLABS ARABIC VOICES (للترجمة والشرح باللغة العربية الفصحى) */}
           {/* ========================================================================= */}
@@ -836,7 +819,7 @@ export const AudioSettingsModal: React.FC<AudioSettingsModalProps> = ({ isOpen, 
                           </div>
                           {v.isNatural && (
                             <span className="px-1.5 py-0.2 rounded bg-emerald-200/80 dark:bg-emerald-900 text-[10px] text-emerald-900 dark:text-emerald-200 font-mono">
-                              طبيعي HD
+                              فصيح HD
                             </span>
                           )}
                         </button>

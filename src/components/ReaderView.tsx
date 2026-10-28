@@ -14,6 +14,7 @@ import { PageSummaryOverlay } from './PageSummaryOverlay';
 import { FocusSessionWidget } from './FocusSessionWidget';
 import { TranslationProgressCounter } from './TranslationProgressCounter';
 import { AudioSettingsModal } from './AudioSettingsModal';
+import { AccessibleAudioPlayer } from './AccessibleAudioPlayer';
 import {
   NaturalTTSPlayer,
   getTTSSettings,
@@ -219,7 +220,6 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
   // Subscribe to AccessibleTTSEngine state & warm up speech engine in background
   useEffect(() => {
     warmUpSpeechEngine();
-    accessibleTTS.stop();
     const unsub = accessibleTTS.subscribe((state) => {
       setTtsState(state);
       setIsPlayingSpeech(state.isPlaying);
@@ -260,6 +260,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
 
   const [speechSourceLabel, setSpeechSourceLabel] = useState<string>('');
   const [currentSpokenText, setCurrentSpokenText] = useState<string>('');
+  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [frenchVoices, setFrenchVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [arabicVoices, setArabicVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedFrenchVoice, setSelectedFrenchVoice] = useState<SpeechSynthesisVoice | null>(null);
@@ -494,7 +495,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
       }
 
       if (e.code === 'Space') {
-        if (ttsState.isPlaying) {
+        if (showAudioPlayer || ttsState.isPlaying) {
           e.preventDefault();
           if (ttsState.isPlaying && !ttsState.isPaused) {
             accessibleTTS.pause();
@@ -505,17 +506,17 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
           }
         }
       } else if (e.altKey && e.key === 'ArrowRight') {
-        if (ttsState.isPlaying) {
+        if (showAudioPlayer || ttsState.isPlaying) {
           e.preventDefault();
           accessibleTTS.nextSentence();
         }
       } else if (e.altKey && e.key === 'ArrowLeft') {
-        if (ttsState.isPlaying) {
+        if (showAudioPlayer || ttsState.isPlaying) {
           e.preventDefault();
           accessibleTTS.prevSentence();
         }
       } else if (e.key === 'Escape') {
-        if (ttsState.isPlaying) {
+        if (showAudioPlayer || ttsState.isPlaying) {
           accessibleTTS.stop();
         }
       }
@@ -523,7 +524,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [ttsState.isPlaying, ttsState.isPaused]);
+  }, [showAudioPlayer, ttsState.isPlaying, ttsState.isPaused]);
 
   // Start reading text aloud using Accessible TTS Engine (Web Speech API) with sentence/word tracking
   const startAudioReading = useCallback(
@@ -541,6 +542,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
       setCurrentSpeechLang(lang);
       setSpeechSourceLabel(sourceLabel);
       setCurrentSpokenText(sentences[0]?.text || cleanText);
+      setShowAudioPlayer(true);
       accessibleTTS.play();
     },
     []
@@ -613,6 +615,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
     const pageText = currentPageData.text.trim();
     if (!pageText) return;
 
+    setShowAudioPlayer(true);
     setCurrentSpeechLang('ar');
     setSpeechSourceLabel(`ترجمة صفحة ${pageNum} (صوت بشري عربي 🇲🇦)`);
 
@@ -711,6 +714,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
     } else if (ttsState.isPaused) {
       accessibleTTS.resume();
     } else {
+      setShowAudioPlayer(true);
       if (currentSpeechLang === 'ar') {
         startNaturalArabicAudioReading();
       } else {
@@ -1059,6 +1063,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
             e.stopPropagation();
             const sentences = splitParagraphsIntoSentences(currentChunk.paragraphs);
             accessibleTTS.loadSentences(sentences, 'fr');
+            setShowAudioPlayer(true);
             accessibleTTS.playParagraph(pIdx);
           }}
           aria-label={`استمع للفقرة ${pIdx + 1} بصوت واضح`}
@@ -1261,6 +1266,46 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
             <span>ترجمة الصفحة كاملة بـ AI</span>
           </button>
 
+          {/* Audio Read Feature Button (Accessible TTS Engine) */}
+          <button
+            onClick={() => {
+              if (ttsState.isPlaying && !ttsState.isPaused) {
+                accessibleTTS.pause();
+              } else if (ttsState.isPaused) {
+                accessibleTTS.resume();
+              } else {
+                setShowAudioPlayer(true);
+                const sentences = splitParagraphsIntoSentences(currentChunk.paragraphs);
+                accessibleTTS.loadSentences(sentences, 'fr');
+                accessibleTTS.play();
+              }
+            }}
+            className={`px-3 py-1.5 rounded-lg border text-xs font-arabic font-bold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer ${
+              ttsState.isPlaying && !ttsState.isPaused
+                ? 'bg-indigo-700 hover:bg-indigo-800 text-white border-indigo-800 ring-2 ring-indigo-400/40'
+                : showAudioPlayer
+                ? 'bg-indigo-100 dark:bg-indigo-950/80 text-indigo-900 dark:text-indigo-200 border-indigo-300 dark:border-indigo-800'
+                : 'bg-amber-200/80 dark:bg-stone-800 hover:bg-amber-300 dark:hover:bg-stone-700 border-amber-300 dark:border-stone-700 text-amber-950 dark:text-amber-300'
+            }`}
+            title="قراءة صوتية ميسرة للطلاب ذوي الاحتياجات أو المتعلمين سمعياً (Lecture Vocale Accessible)"
+          >
+            {ttsState.isPlaying && !ttsState.isPaused ? (
+              <span className="flex items-center gap-0.5 h-3.5">
+                <span className="w-1 h-3 bg-white rounded-full animate-bounce" />
+                <span className="w-1 h-2 bg-white rounded-full animate-bounce delay-75" />
+                <span className="w-1 h-3.5 bg-white rounded-full animate-bounce delay-150" />
+              </span>
+            ) : (
+              <Volume2 className="w-3.5 h-3.5 text-indigo-700 dark:text-indigo-400" />
+            )}
+            <span>
+              {ttsState.isPlaying
+                ? ttsState.isPaused
+                  ? 'استئناف القراءة'
+                  : 'إيقاف مؤقت'
+                : 'قراءة صوتية ميسّرة (TTS)'}
+            </span>
+          </button>
 
           {/* Bookmark / Star Page Button */}
           <button
@@ -1382,6 +1427,21 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
         </div>
       </div>
 
+      {/* =========================================================================
+          ACCESSIBLE AUDIO READ PLAYER (LECTURE VOCALE ACCESSIBLE ET BIMODALE)
+         ========================================================================= */}
+      {showAudioPlayer && (
+        <AccessibleAudioPlayer
+          ttsState={ttsState}
+          onOpenSettings={() => setIsAudioSettingsOpen(true)}
+          onClose={() => {
+            accessibleTTS.stop();
+            setShowAudioPlayer(false);
+          }}
+          pageNumber={currentPageData.pageNumber}
+          chapterTitle={currentPageData.chapterTitle}
+        />
+      )}
 
       {/* =========================================================================
           FULL SPLIT SIDE-BY-SIDE VIEW (NOUVELLE PAGE - VUE SCINDÉE) FOR PARAGRAPHS
@@ -1842,6 +1902,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
 
                   <button
                     onClick={() => {
+                      setShowAudioPlayer(true);
                       startAudioReading(
                         currentChunk.paragraphs.join(' '),
                         `ورقة ${subPageIndex + 1}`

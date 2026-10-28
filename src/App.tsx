@@ -170,17 +170,11 @@ function AppContent() {
   const [isPassageModalOpen, setIsPassageModalOpen] = useState<boolean>(false);
   const [passageModalPassageId, setPassageModalPassageId] = useState<string | undefined>(undefined);
   const [passageModalChapterNumber, setPassageModalChapterNumber] = useState<number | undefined>(undefined);
-  const [passageModalTab, setPassageModalTab] = useState<'test' | 'explore' | 'fourW'>('fourW');
   const [isAnalyticsModalOpen, setIsAnalyticsModalOpen] = useState<boolean>(false);
 
-  const handleOpenPassageSituation = (
-    chapterNumber?: number,
-    passageId?: string,
-    tab: 'test' | 'explore' | 'fourW' = 'fourW'
-  ) => {
+  const handleOpenPassageSituation = (chapterNumber?: number, passageId?: string) => {
     setPassageModalChapterNumber(chapterNumber);
     setPassageModalPassageId(passageId);
-    setPassageModalTab(tab);
     setIsPassageModalOpen(true);
   };
 
@@ -584,7 +578,6 @@ function AppContent() {
             onOpenVocabReview={(tab) => handleOpenVocabReview(tab || 'cards')}
             onOpenFocusSession={() => setIsFocusModalOpen(true)}
             onOpenAnalytics={() => setIsAnalyticsModalOpen(true)}
-            onOpenPassageSituation={() => handleOpenPassageSituation(undefined, undefined, 'fourW')}
             lastReadPages={lastReadPages}
           />
         )}
@@ -686,7 +679,6 @@ function AppContent() {
         activeBook={bookInfo}
         initialPassageId={passageModalPassageId}
         initialChapterNumber={passageModalChapterNumber}
-        initialTab={passageModalTab}
         onJumpToPage={(p) => {
           handlePageChange(p);
           setCurrentView('reader');
